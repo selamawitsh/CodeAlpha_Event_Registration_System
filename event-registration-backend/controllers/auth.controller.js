@@ -54,4 +54,15 @@ const LoginUser = async (req, res) => {
     
 }
 
-export {registerUser, LoginUser};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("error in fetching users", error);
+        res.status(500).json({message: "internal server error"});
+    }
+}
+
+export {registerUser, LoginUser, getAllUsers};
