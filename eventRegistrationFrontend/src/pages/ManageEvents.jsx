@@ -31,27 +31,39 @@ export default function ManageEvents() {
     }
   };
 
-  // For update you can create a separate update form/page or inline editing.
-
   if (!isAdmin) {
-    return <p>Access denied. Admins only.</p>;
+    return (
+      <p className="text-center text-yellow-500 mt-10 font-semibold">
+        Access denied. Admins only.
+      </p>
+    );
   }
 
   return (
-    <div>
-      <h2>Manage Events</h2>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h2 className="text-3xl font-bold text-yellow-600 mb-6 text-center">Manage Events</h2>
+
       {events.length === 0 ? (
-        <p>No events found.</p>
+        <p className="text-center text-yellow-400">No events found.</p>
       ) : (
-        <ul>
+        <ul className="space-y-6 max-w-3xl mx-auto">
           {events.map((ev) => (
-            <li key={ev._id}>
-              <h3>{ev.title}</h3>
-              <p>{ev.description}</p>
-              <p>{new Date(ev.date).toLocaleString()}</p>
-              <p>{ev.location}</p>
-              <button onClick={() => handleDelete(ev._id)}>Delete</button>
-              {/* You can add an Edit button here */}
+            <li
+              key={ev._id}
+              className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700"
+            >
+              <h3 className="text-xl font-semibold text-yellow-500">{ev.title}</h3>
+              <p className="mt-1 text-gray-300">{ev.description}</p>
+              <p className="mt-1 text-sm text-gray-400">
+                📅 {new Date(ev.date).toLocaleString()}
+              </p>
+              <p className="text-sm text-gray-400">📍 {ev.location}</p>
+              <button
+                onClick={() => handleDelete(ev._id)}
+                className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded transition duration-200"
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
