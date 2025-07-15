@@ -2,7 +2,8 @@ import EventModel from '../model/Event.model.js';
 import RegistrationModel from "../model/Registration.model.js";
 
 const registerForEvent = async(req, res) => {
-    const {eventId, userId} = req.body;
+    const {eventId} = req.body;
+    const userId = req.user.id;
     try {
         const event = await EventModel.findById(eventId);
         if (!event) return res.status(404).json({ message: 'Event not found' });
@@ -34,7 +35,7 @@ const getMyRegistations = async (req, res) => {
 
 const cancelRegistration = async (req, res) => {
   try {
-    const reg = await Registration.findOneAndDelete({
+    const reg = await RegistrationModel.findOneAndDelete({
       _id: req.params.id,
       user: req.user.id,
     });
