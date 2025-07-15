@@ -30,29 +30,39 @@ const registerUser = async (req, res)=>{
 
 //login user
 const LoginUser = async (req, res) => {
-    try {
-        const {email, password} = req.body;
+  try {
+    const { email, password } = req.body;
 
-        const existingUser = await UserModel.findOne({email: email});
-        if (!existingUser) {
-            return res.status(400).json({message: "User does not exist"});
-        }
-        const isPasswordValid = bycrpt.compareSync(password, existingUser.password);
-        if (!isPasswordValid) {
-            return res.status(400).json({message: "Invalid password"});
-        }
-
-        const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, process.env.JWT_SECRET, {
-            expiresIn: '1d',
-        });
-
-        res.status(200).json({message: "Login successful", token: token});
-    } catch (error) {
-        console.error("error in logging in user", error);
-        res.status(500).json({message: "internal server error"});
+    const existingUser = await UserModel.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(400).json({ message: "User does not exist" });
     }
-    
-}
+
+    const isPasswordValid = bycrpt.compareSync(password, existingUser.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    const token = jwt.sign(
+      { id: existingUser._id, role: existingUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    // ✅ SEND FULL USER INFO + TOKEN
+    res.status(200).json({
+      _id: existingUser._id,
+      name: existingUser.name,
+      email: existingUser.email,
+      role: existingUser.role, // ✅ so frontend can detect admin
+      token: token,
+    });
+  } catch (error) {
+    console.error("Error in logging in user", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 
 const getAllUsers = async (req, res) => {

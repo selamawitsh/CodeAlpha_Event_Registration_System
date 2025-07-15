@@ -4,7 +4,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MyRegistrations from './pages/MyRegistrations';
 import Navbar from './components/Navbar';
-
+import AddEvent from './pages/AddEvent';
+import ManageEvents from './pages/ManageEvents';
 export default function App() {
   return (
     <>
@@ -14,6 +15,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/my-registrations" element={<MyRegistrations />} />
+         <Route path="/add-event" element={<AddEvent />} />
+        <Route path="/manage-events" element={<ManageEvents />} />
       </Routes>
     </>
   );
